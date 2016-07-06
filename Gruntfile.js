@@ -89,7 +89,8 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('deploy', [
-      // add your production server task here
+    // add your production server task here
+    'git push live master'
   ]);
 
 
