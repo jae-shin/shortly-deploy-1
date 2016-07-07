@@ -52,12 +52,9 @@ module.exports = function(grunt) {
 
     cssmin: {
       // Add list of files to lint here
-      target: {
-        files: [{
-          src: ['*.css', '!*.min.css'],
-          dest: 'public/dist/',
-          ext: '.min.css'
-        }]
+      css: {
+        src: 'public/style.css',
+        dest: 'public/dist/style.min.css'
       }
     },
 
@@ -113,6 +110,7 @@ module.exports = function(grunt) {
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) {
       // add your production server task here
+      grunt.task.run([ 'gitpush' ]);
     } else {
       grunt.task.run([ 'server-dev' ]);
     }
