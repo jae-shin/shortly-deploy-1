@@ -2,7 +2,13 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+
     concat: {
+      options: { separator: ';'},
+      dist: {
+        src: ['public/client/**/*.js'],
+        dest: 'public/dist/<%= pkg.name %>.js'
+      }
     },
 
     gitpush: {
@@ -11,7 +17,6 @@ module.exports = function(grunt) {
           verbose: true,
           remote: 'live',
           branch: 'master',
-          // cwd: 'shortly-deploy/'
         }
       }
     },
@@ -32,6 +37,12 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      target: {
+        file: {
+          'public/dist/<%= pkg.name %>.min.js': ['client/**/*.js'],
+          'public/dist/<%= pkg.name %>.min.css': ['public/*.css']
+        }
+      }
     },
 
     eslint: {
@@ -90,6 +101,7 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
+    'concat', 'uglify'
   ]);
 
   grunt.registerTask('upload', function(n) {
