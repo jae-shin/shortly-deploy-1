@@ -6,7 +6,10 @@ npm-debug.log
 
 db/shortly.sqlite
 node_modules
+# <!-- comments:comment # -->
 public/dist
+# <!-- endcomments -->
+
 
 # Icon must ends with two \r.
 Icon

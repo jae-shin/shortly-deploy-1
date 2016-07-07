@@ -58,6 +58,16 @@ module.exports = function(grunt) {
       }
     },
 
+    toggleComments: {
+      customOptions: {
+        // options: {
+        //   padding: 4,
+        //   removeCommands: true
+        // },
+        files: {'.gitignore': '.gitignore'}
+      }
+    },
+
     watch: {
       scripts: {
         files: [
@@ -90,6 +100,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-git');
+  grunt.loadNpmTasks('grunt-comment-toggler');
 
   grunt.registerTask('server-dev', function (target) {
     grunt.task.run([ 'nodemon', 'watch' ]);
@@ -118,7 +129,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('deploy', [
     // add your production server task here
-    'gitpush'
+    'toggleComments', 'gitpush'
   ]);
 
 
