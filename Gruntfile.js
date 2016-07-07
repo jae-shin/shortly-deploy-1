@@ -102,6 +102,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-git');
   grunt.loadNpmTasks('grunt-concurrent');
+  grunt.loadNpmTasks('grunt-npm-install');
 
   grunt.registerTask('server-dev', function (target) {
     grunt.task.run([ 'concurrent' ]);
@@ -117,9 +118,10 @@ module.exports = function(grunt) {
 
   grunt.registerTask('start', [
     // TODO: create this command which will
-    // run npm install, grunt build, and grunt nodemon
+    // run npm install, grunt build, and grunt concurrent
     // on production server directly
     // https://www.npmjs.com/package/grunt-npm-install
+    'npm-install', 'build', 'concurrent'
   ]);
 
   grunt.registerTask('build', [
