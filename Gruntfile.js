@@ -128,6 +128,7 @@ module.exports = function(grunt) {
       // add your production server task here
       grunt.task.run([ 'upload' ]);
     } else {
+      // TODO: eslint, mochaTest, build, upload
       grunt.task.run([ 'build', 'upload' ]);
     }
   });
