@@ -46,7 +46,7 @@ module.exports = function(grunt) {
 
     eslint: {
       target: [
-        // Add list of files to lint here
+        '**/*.js'
       ]
     },
 
@@ -71,7 +71,18 @@ module.exports = function(grunt) {
       },
       css: {
         files: 'public/*.css',
-        tasks: ['cssmin']
+        tasks: [
+          'cssmin'
+        ]
+      }
+    },
+
+    concurrent: {
+      target: {
+        tasks: ['nodemon', 'watch'],
+        options: {
+          logConcurrentOutput: true
+        }      
       }
     },
 
@@ -90,9 +101,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-git');
+  grunt.loadNpmTasks('grunt-concurrent');
 
   grunt.registerTask('server-dev', function (target) {
-    grunt.task.run([ 'nodemon', 'watch' ]);
+    grunt.task.run([ 'concurrent' ]);
   });
 
   ////////////////////////////////////////////////////
@@ -128,8 +140,8 @@ module.exports = function(grunt) {
       // add your production server task here
       grunt.task.run([ 'upload' ]);
     } else {
-      // TODO: eslint, mochaTest, build, upload
-      grunt.task.run([ 'build', 'upload' ]);
+      grunt.task.run([ 'eslint', 'build', 'upload' ]);
+      // grunt.task.run([ 'eslint', 'mochaTest', 'build', 'upload' ]);
     }
   });
 
