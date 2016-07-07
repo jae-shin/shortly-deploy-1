@@ -38,9 +38,8 @@ module.exports = function(grunt) {
 
     uglify: {
       target: {
-        file: {
-          'public/dist/<%= pkg.name %>.min.js': ['client/**/*.js'],
-          'public/dist/<%= pkg.name %>.min.css': ['public/*.css']
+        files: {
+          'public/dist/<%= pkg.name %>.min.js': ['public/dist/**/*.js'],
         }
       }
     },
@@ -52,7 +51,14 @@ module.exports = function(grunt) {
     },
 
     cssmin: {
-        // Add list of files to lint here
+      // Add list of files to lint here
+      target: {
+        files: [{
+          src: ['*.css', '!*.min.css'],
+          dest: 'public/dist/',
+          ext: '.min.css'
+        }]
+      }
     },
 
     watch: {
@@ -101,7 +107,7 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
-    'concat', 'uglify'
+    'concat', 'uglify', 'cssmin'
   ]);
 
   grunt.registerTask('upload', function(n) {
