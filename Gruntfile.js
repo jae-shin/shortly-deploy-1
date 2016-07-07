@@ -127,10 +127,14 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('deploy', [
-    // add your production server task here
-    'toggleComments', 'gitpush'
-  ]);
+  grunt.registerTask('deploy', function(n) {
+    if (grunt.option('prod')) {
+      // add your production server task here
+      grunt.task.run([ 'upload --prod' ]);
+    } else {
+      grunt.task.run([ 'build', 'upload' ]);
+    }
+  });
 
 
 };
