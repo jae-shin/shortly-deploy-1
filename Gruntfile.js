@@ -58,16 +58,6 @@ module.exports = function(grunt) {
       }
     },
 
-    toggleComments: {
-      customOptions: {
-        // options: {
-        //   padding: 4,
-        //   removeCommands: true
-        // },
-        files: {'.gitignore': '.gitignore'}
-      }
-    },
-
     watch: {
       scripts: {
         files: [
@@ -100,7 +90,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-git');
-  grunt.loadNpmTasks('grunt-comment-toggler');
 
   grunt.registerTask('server-dev', function (target) {
     grunt.task.run([ 'nodemon', 'watch' ]);
@@ -112,6 +101,13 @@ module.exports = function(grunt) {
 
   grunt.registerTask('test', [
     'mochaTest'
+  ]);
+
+  grunt.registerTask('start', [
+    // TODO: create this command which will
+    // run npm install, grunt build, and grunt nodemon
+    // on production server directly
+    // https://www.npmjs.com/package/grunt-npm-install
   ]);
 
   grunt.registerTask('build', [
@@ -130,11 +126,10 @@ module.exports = function(grunt) {
   grunt.registerTask('deploy', function(n) {
     if (grunt.option('prod')) {
       // add your production server task here
-      grunt.task.run([ 'upload --prod' ]);
+      grunt.task.run([ 'upload' ]);
     } else {
       grunt.task.run([ 'build', 'upload' ]);
     }
   });
-
 
 };
