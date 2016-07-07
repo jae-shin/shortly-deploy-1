@@ -121,6 +121,8 @@ module.exports = function(grunt) {
     // run npm install, grunt build, and grunt concurrent
     // on production server directly
     // https://www.npmjs.com/package/grunt-npm-install
+
+    // TODO: figure out how to make npm install --save work
     'npm-install', 'build', 'concurrent'
   ]);
 
