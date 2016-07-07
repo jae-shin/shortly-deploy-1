@@ -1,4 +1,8 @@
 var path = require('path');
+
+/* 
+// OLD SQLITE + BOOKSHELF CONFIG:
+
 var knex = require('knex')({
   client: 'sqlite3',
   connection: {
@@ -37,4 +41,21 @@ db.knex.schema.hasTable('users').then(function(exists) {
   }
 });
 
+*/
+
+// NEW MONGODB + MONGOOSE CONFIG:
+
+var mongoose = require('mongoose');
+// var filename = path.join(__dirname, '../db/shortly.sqlite');
+mongoose.connect('mongodb://localhost/test');
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  // we're connected!
+  console.log('successfully connected to mongodb');
+});
+
 module.exports = db;
+
+

@@ -117,12 +117,9 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('start', [
-    // TODO: create this command which will
-    // run npm install, grunt build, and grunt concurrent
-    // on production server directly
-    // https://www.npmjs.com/package/grunt-npm-install
-
     // TODO: figure out how to make npm install --save work
+    // TODO: figure out how to make post-receive run grunt commands 
+    // (though if we run 'grunt start' in prod once manually, it flows through from there)
     'npm-install', 'build', 'concurrent'
   ]);
 
@@ -132,7 +129,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) {
-      // add your production server task here
       grunt.task.run([ 'gitpush' ]);
     } else {
       grunt.task.run([ 'server-dev' ]);
@@ -141,7 +137,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('deploy', function(n) {
     if (grunt.option('prod')) {
-      // add your production server task here
       grunt.task.run([ 'upload' ]);
     } else {
       grunt.task.run([ 'eslint', 'build', 'upload' ]);
