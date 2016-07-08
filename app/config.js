@@ -1,53 +1,12 @@
 var path = require('path');
 var crypto = require('crypto');
-
-/* 
-// OLD SQLITE + BOOKSHELF CONFIG:
-
-var knex = require('knex')({
-  client: 'sqlite3',
-  connection: {
-    filename: path.join(__dirname, '../db/shortly.sqlite')
-  },
-  useNullAsDefault: true
-});
-var db = require('bookshelf')(knex);
-
-db.knex.schema.hasTable('urls').then(function(exists) {
-  if (!exists) {
-    db.knex.schema.createTable('urls', function (link) {
-      link.increments('id').primary();
-      link.string('url', 255);
-      link.string('baseUrl', 255);
-      link.string('code', 100);
-      link.string('title', 255);
-      link.integer('visits');
-      link.timestamps();
-    }).then(function (table) {
-      console.log('Created Table', table);
-    });
-  }
-});
-
-db.knex.schema.hasTable('users').then(function(exists) {
-  if (!exists) {
-    db.knex.schema.createTable('users', function (user) {
-      user.increments('id').primary();
-      user.string('username', 100).unique();
-      user.string('password', 100);
-      user.timestamps();
-    }).then(function (table) {
-      console.log('Created Table', table);
-    });
-  }
-});
-
-*/
+var bcrypt = require('bcrypt-nodejs');
+var Promise = require('bluebird');
 
 // NEW MONGODB + MONGOOSE CONFIG:
 
 var mongoose = require('mongoose');
-mongoose.Promise = require('bluebird');
+mongoose.Promise = Promise;
 // var filename = path.join(__dirname, '../db/shortly.sqlite');
 mongoose.connect('mongodb://localhost:27017');
 
@@ -63,7 +22,7 @@ var urlSchema = mongoose.Schema({
   baseUrl: String,
   code: String,
   title: String,
-  visits: String,
+  visits: {type: Number, default: 0}
   // TODO if needed - insert timestamp field
 });
 
@@ -80,6 +39,21 @@ var userSchema = mongoose.Schema({
   password: String,
   // TODO if needed - insert timestamp field
 });
+
+userSchema.pre('save', function(next) {
+  var cipher = Promise.promisify(bcrypt.hash);
+  return cipher(this.password, null, null).bind(this)
+  .then(function(hash) {
+    this.password = hash;
+    next();
+  });
+});
+
+userSchema.methods.comparePassword = function(attemptedPassword, callback) {
+  bcrypt.compare(attemptedPassword, this.password, function(err, isMatch) {
+    callback(isMatch);
+  });
+};
 
 // define our models using mongoose.model
 module.exports.Link = mongoose.model('Link', urlSchema);

@@ -140,8 +140,7 @@ module.exports = function(grunt) {
     if (grunt.option('prod')) {
       grunt.task.run([ 'upload' ]);
     } else {
-      grunt.task.run([ 'eslint', 'build', 'upload' ]);
-      // grunt.task.run([ 'eslint', 'mochaTest', 'build', 'upload' ]);
+      grunt.task.run([ 'eslint', 'mochaTest', 'build', 'upload' ]);
     }
   });
 
